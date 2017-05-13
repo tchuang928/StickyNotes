@@ -1,0 +1,54 @@
+import React from 'react';
+import ReactDOM from 'react-dom';
+
+class Note extends React.Component {
+	edit() {
+		swal('editing note');
+	}
+
+	remove() {
+		swal('removing note');
+	}
+	
+	render() {
+		return (
+			<div className="note">
+				<p>{this.props.children}</p>
+				<span>
+					<button onClick={this.edit} className="btn btn-primary glyphicon glyphicon-pencil"/>
+					<button onClick={this.remove} className="btn btn-danger glyphicon glyphicon-trash"/>
+				</span>
+				</div>
+		);
+	}
+}
+
+ReactDOM.render(
+	<Note>Hello World</Note>,
+	document.getElementById('react-container')
+);
+
+class Checkbox extends React.Component {
+	getInitialState() {
+		return {checked: false};
+	}
+
+	handleCheck() {
+		this.setState({checked: !this.state.checked})
+	}
+
+	render() {
+		return (
+			<div>
+				<input type="checkbox" onChange={this.handleCheck}/>
+				<p></p>
+				</div>
+		);
+	}
+}
+
+ReactDOM.render(
+	<Checkbox />,
+	document.getElementById('react-container')
+);
+

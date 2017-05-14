@@ -4,22 +4,51 @@ import Note from './note';
 // parent component
 class Board extends React.Component {
 	state = {
-		notes: [
-			'Call Bill',
-			'Email Lisa',
-			'Make dentist appt',
-			'Send proposal'
-		]
+		notes: []
+	}
+
+	nextId = () => {
+		this.uniqueId = this.uniqueId || 0;
+		return this.uniqueId++;
+	}
+	
+	add = () => {
+		this.state.notes.push({
+			id: this.nextId(),
+			note: ''
+		});
+		this.setState((prevState, props) => {
+			return {notes: prevState.notes}
+		});
+	}
+
+	update = (newText, i) => {
+		this.state.notes[i].note = newText;
+		this.setState((prevState, props) => {
+			return {notes: prevState.notes};
+		});
+	}
+
+	remove = (i) => {
+		this.state.notes.splice(i, 1);
+		this.setState((prevState, props) => {
+			return {notes: prevState.notes};
+		})
+	}
+
+	eachNote = (note, i) =>  {
+		return (
+			<Note key={note.id} index={i} onChange={this.update} onRemove={this.remove}>
+				{note.note}
+			</Note>
+		)
 	}
 
 	render() {
 		return (
 			<div className="board">
-				{this.state.notes.map((note, i) => {
-					return (
-						<Note key={i}>{note}</Note>
-					);
-				})}
+				{this.state.notes.map(this.eachNote)}
+				<button className="btn btn-success btn-sm glyphicon glyphicon-plus" onClick={this.add}/>
 			</div>
 		);
 	}

@@ -1,8 +1,13 @@
 import React from 'react';
+import ReactDOM from 'react-dom';
 
 class Note extends React.Component {
 	state = {
 		editing: false
+	}
+
+	componentDidMount() {
+		$(ReactDOM.findDOMNode(this)).draggable();
 	}
 
 	edit = () => {
@@ -12,8 +17,7 @@ class Note extends React.Component {
 	}
 
 	save = () => {
-		var val = this.refs.newText.value;
-		swal(`Save note value: ${val}`);
+		this.props.onChange(this.refs.newText.value, this.props.index);
 
 		this.setState((prevState, props) => {
 			return {editing: !prevState.editing}
@@ -21,7 +25,7 @@ class Note extends React.Component {
 	}
 
 	remove = () => {
-		swal('removing note');
+		this.props.onRemove(this.props.index);
 	}
 
 	// individual note display
